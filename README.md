@@ -1,2 +1,2 @@
-# VerktygProjekt
-Our projekt for the course verktyg one.
+# webdriver-io-github-actions
+Run WebDriverIO tests using GitHub Actions
