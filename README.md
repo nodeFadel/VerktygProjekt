@@ -1,2 +1,2 @@
 # VerktygProjekt
-Our projekt for the course verktyg one. X
+Our projekt for the course verktyg one.
