@@ -1,12 +1,12 @@
 const { Given, When, Then } = require('@wdio/cucumber-framework');
-const pauseTime = 0;
+const pauseTime = 3000;
 
 // browser.url - navigate to a page/url
 // browser.pause - pause execution for a number of ms
 // $ - grab an element
 // element: click, setValue
 
-Given('that I can see the product list', async () => {
+/*Given('that I can see the product list', async () => {
   await browser.url('/');
 });
 
@@ -44,4 +44,25 @@ Then(/^(\d*) item of "(.*)" should be added to the cart$/, async (quantity, prod
   await tds[0].scrollIntoView();
   // pause before ending the step
   await browser.pause(pauseTime);
+});*/
+
+
+
+Given('that I can see the product list', async () => {
+  await browser.url('/');
+  await browser.pause(pauseTime);
+});
+
+When(/^ I scroll down to get the "(.*)"$/, async (productName) => {
+  let breads = await $$('.productInList');
+  let franskBread = "";
+
+  for (let bread of breads){
+    if ((await bread.getText()).includes(productName)) {
+      franskBread = bread;
+    }
+  }
+  expect(franskBread).toBeTruthy();
+  let buyButton = await franskBread.$('.buyButton');
+  await buyButton.scrollIntoView();
 });
