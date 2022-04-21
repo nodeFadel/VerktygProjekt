@@ -46,7 +46,7 @@ class ShoppingCart {
       html += `
         <tr>
           <td>${orderRow.quantity}</td>
-          <td>${orderRow.product.name}</td>
+          <td><button class="removeProduct"> Remove</button> ${orderRow.product.name}</td>
           <td>à ${this.formatSEK(orderRow.product.price)}</td>
           <td>${this.formatSEK(rowSum)}</td>
         </tr>
@@ -61,5 +61,6 @@ class ShoppingCart {
     html += '</table><button class="closeCart">X</button></div>';
     return html;
   }
+
 
 }
