@@ -6,7 +6,7 @@ const pauseTime = 3000;
 // $ - grab an element
 // element: click, setValue
 
-/*Given('that I can see the product list', async () => {
+Given('that I can see the product list after I loggin', async () => {
   await browser.url('/');
 });
 
@@ -44,25 +44,15 @@ Then(/^(\d*) item of "(.*)" should be added to the cart$/, async (quantity, prod
   await tds[0].scrollIntoView();
   // pause before ending the step
   await browser.pause(pauseTime);
-});*/
-
-
-
-Given('that I can see the product list', async () => {
-  await browser.url('/');
-  await browser.pause(pauseTime);
 });
 
-When(/^ I scroll down to get the "(.*)"$/, async (productName) => {
-  let breads = await $$('.productInList');
-  let franskBread = "";
 
-  for (let bread of breads){
-    if ((await bread.getText()).includes(productName)) {
-      franskBread = bread;
-    }
-  }
-  expect(franskBread).toBeTruthy();
-  let buyButton = await franskBread.$('.buyButton');
-  await buyButton.scrollIntoView();
-});
+
+Then (/^I click on the checkout to send the order and start from null again$/, async ()=>{
+    let checkoutButton = await $('.checkout'); 
+    await checkoutButton.click();
+    await browser.pause(pauseTime);
+})
+
+
+
