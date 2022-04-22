@@ -1,10 +1,27 @@
 const { Given, When, Then } = require('@wdio/cucumber-framework');
+const { text } = require('express');
+const { set } = require('express/lib/application');
 const pauseTime = 3000;
 
 // browser.url - navigate to a page/url
 // browser.pause - pause execution for a number of ms
 // $ - grab an element
 // element: click, setValue
+
+Given('that I can see the product list', async () => {
+  await browser.url('/');
+  await browser.pause(pauseTime)
+}); 
+
+When (/^I can write my private information in order to register new account$/, async ()=>{
+    let myAccount = await $('.register');
+    await myAccount.click();
+    await browser.pause(pauseTime);
+    let firstname = await $('.FirstName');
+    await (firstname).setValue('Anna');
+    await browser.pause(pauseTime);
+});
+
 
 Given('that I can see the product list after I loggin', async () => {
   await browser.url('/');
