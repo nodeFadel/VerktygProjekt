@@ -1,6 +1,4 @@
 const { Given, When, Then } = require('@wdio/cucumber-framework');
-const { text } = require('express');
-const { set } = require('express/lib/application');
 const pauseTime = 3000;
 
 // browser.url - navigate to a page/url
@@ -13,16 +11,43 @@ Given('that I can see the product list', async () => {
   await browser.pause(pauseTime)
 }); 
 
-When (/^I can write my private information in order to register new account$/, async ()=>{
-    let myAccount = await $('.register');
-    await myAccount.click();
-    await browser.pause(pauseTime);
-    let firstname = await $('.FirstName');
-    await (firstname).setValue('Anna');
-    await browser.pause(pauseTime);
+When(/^I can grab the login box$/, async ()=>{
+  let loginWindow = await $('.login');
+  await loginWindow.click();
+  await browser.pause(pauseTime);
 });
 
+Then(/^I can see login box$/, async () => {
+  let loginBox = await $('.loginModel');
+  await loginBox.waitForDisplay(pauseTime);
+  await browser.pause(pauseTime);
+})
 
+When (/^ I enter email "(.*)" and password "(.*)"$/, async (email, password) => {
+  let emailField = await $('form[name="login"] input[name ="email"]');
+  let passwordField = await $('form[name="login"] input[name ="password"]');
+  await emailField.setValue(email);
+  await emailField.waitForDisplay(pauseTime);
+  await passwordField.setValue(password);
+  await passwordField.waitForDisplay(pauseTime);
+  await browser.pause(pauseTime);
+});
+
+Then(/^I can tryck the login knapp$/, async () => {
+  let loginKnapp = await $('form[name="login"] button[name="login"]');
+  await loginKnapp.waitForDisplay(pauseTime)
+  await loginKnapp.click();
+  await browser.pause(pauseTime);
+  await browser.url('/');
+});
+
+Then(/^I can see that I am logging in$/, async () => {
+  let logoutButton = await $('.navButton .logout');
+  await logoutButton.waitForDisplay(pauseTime);
+  await browser.pause(pauseTime);
+  await browser.url('/');
+})
+/*
 Given('that I can see the product list after I loggin', async () => {
   await browser.url('/');
 });
@@ -69,7 +94,7 @@ Then (/^I click on the checkout to send the order and start from null again$/, a
     let checkoutButton = await $('.checkout'); 
     await checkoutButton.click();
     await browser.pause(pauseTime);
-})
+})*/
 
 
 
