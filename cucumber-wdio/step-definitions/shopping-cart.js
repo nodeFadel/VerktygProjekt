@@ -6,47 +6,50 @@ const pauseTime = 3000;
 // $ - grab an element
 // element: click, setValue
 
+
 Given('that I can see the product list', async () => {
   await browser.url('/');
   await browser.pause(pauseTime)
-}); 
+});
 
-When(/^I can grab the login box$/, async ()=>{
+When(/^I can grab the login box$/, async () => {
   let loginWindow = await $('.login');
   await loginWindow.click();
   await browser.pause(pauseTime);
 });
 
 Then(/^I can see login box$/, async () => {
-  let loginBox = await $('.loginModel');
-  await loginBox.waitForDisplay(pauseTime);
+  let loginBox = await $('.loginModal');
+  await loginBox.waitForDisplayed(2000);
   await browser.pause(pauseTime);
 })
 
-When (/^ I enter email "(.*)" and password "(.*)"$/, async (email, password) => {
+When(/^I enter email "(.*)" and password "(.*)"$/, async (email, password) => {
   let emailField = await $('form[name="login"] input[name ="email"]');
   let passwordField = await $('form[name="login"] input[name ="password"]');
   await emailField.setValue(email);
-  await emailField.waitForDisplay(pauseTime);
+  // await emailField.waitForDisplayed(pauseTime);
   await passwordField.setValue(password);
-  await passwordField.waitForDisplay(pauseTime);
+  // await passwordField.waitForDisplayed(pauseTime);
   await browser.pause(pauseTime);
 });
 
 Then(/^I can tryck the login knapp$/, async () => {
-  let loginKnapp = await $('form[name="login"] button[name="login"]');
-  await loginKnapp.waitForDisplay(pauseTime)
+  let loginKnapp = await $('form[name="login"] button[type="submit"]');
+  //await loginKnapp.waitForDisplay(pauseTime)
   await loginKnapp.click();
   await browser.pause(pauseTime);
   await browser.url('/');
 });
 
 Then(/^I can see that I am logging in$/, async () => {
-  let logoutButton = await $('.navButton .logout');
-  await logoutButton.waitForDisplay(pauseTime);
-  await browser.pause(pauseTime);
+  let logoutButton = await $('.navButtons .logout');
+  await logoutButton.waitForDisplayed(pauseTime);
+  // await browser.pause(pauseTime);
   await browser.url('/');
-})
+});
+
+
 /*
 Given('that I can see the product list after I loggin', async () => {
   await browser.url('/');
@@ -90,11 +93,11 @@ Then(/^(\d*) item of "(.*)" should be added to the cart$/, async (quantity, prod
 
 
 
-Then (/^I click on the checkout to send the order and start from null again$/, async ()=>{
-    let checkoutButton = await $('.checkout'); 
-    await checkoutButton.click();
-    await browser.pause(pauseTime);
-})*/
+Then(/^I click on the checkout to send the order and start from null again$/, async () => {
+  let checkoutButton = await $('.checkout');
+  await checkoutButton.click();
+  await browser.pause(pauseTime);
+});*/
 
 
 

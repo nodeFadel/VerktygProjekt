@@ -16,8 +16,8 @@ Feature: Shopping-cart
 
   # Scenario: Clicking a buy button and checkout
   #   Given that I can see the product list after I loggin
-  #   When I click on the buy button for "Pasta - Penne, Rigate, Dry"
-  #   Then 1 item of "Pasta - Penne, Rigate, Dry" should be added to the cart
+  #   When I click on the buy button for "Ocean Spray - Ruby Red"
+  #   Then 1 item of "Ocean Spray - Ruby Red" should be added to the cart
   #   Then I click on the checkout to send the order and start from null again
     
 
