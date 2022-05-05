@@ -34,7 +34,7 @@ function checkout() {
 // the secret hash
 const server = http.createServer(function (req, res) {
   res.end('Ok');
-  if (req.url === '/' + '123456') {
+  if (req.url === '/123456') {
     checkout();
   }
 });
