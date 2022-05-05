@@ -32,8 +32,7 @@ class ProductList {
       // create an instance of Products based on a generic object
       // from the son data
       // (note: this = this Productlist)
-      let aProduct = new Product(element.id, element.name,
-        element.price, element.description, this);
+      let aProduct = new Product(element.id, element.name, element.price, element.description, this);
       // add the product to the products array
       this.products.push(aProduct);
     }

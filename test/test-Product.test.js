@@ -2,10 +2,15 @@ const { expect } = require('@jest/globals');
 
 const Product = require('../frontend/Product.js');
 
-describe('Test the Product class', () => {
+// Mock the listen method (because it used in when creating a new Product)
+// but in our test we do not need to add DOM events
+global.listen = () => { };
+
+describe.only('Test the Product class', () => {
 
   test('Creation of a Product', () => {
-
+    
+    
     let myProduct = new Product(1, 'Broom stick', 200, 'A good broom stick.');
 
     // Check that the constructor really sets the correct property values
@@ -25,6 +30,15 @@ describe('Test the Product class', () => {
     expect(() => {
       new Product(true, 'X', 200, 'description');
     }).toThrow();
+
+
+  })
+  
+  test('An name equal to a null should fail for Product constructor', () => {
+
+    expect(() => { new Product('xa','Cheese', 'x', 'description');}).toThrow();
+
+    expect(() => { new Product(true, 'Cheese', 'x', 'description');}).toThrow();
 
 
   })
