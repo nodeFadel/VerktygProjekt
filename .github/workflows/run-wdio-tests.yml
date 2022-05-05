@@ -62,7 +62,7 @@ jobs:
     - run: npm ci
     - run: npm test
 
-  api-test:
+  api-test: 
     runs-on: ubuntu-latest # on an ubuntu server
       strategy:
         matrix:
