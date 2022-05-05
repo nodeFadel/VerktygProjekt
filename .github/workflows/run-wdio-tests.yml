@@ -87,4 +87,22 @@ jobs:
     - run: pm2 start backend/index.js
     - run: newman run api-test/apiTest.postman_collection.json
 
+  golive:
+
+    # demand that the 3 test jobs succeed
+    # before running go live
+    needs: [webdriver-io-tests, unit-test, api-test]
+
+    # only run this job if the environment protection rules
+    # (a reviewers approves and we are on the dev branch)
+    # are fulfilled
+    # environment: "Dev-server"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      ## call checkout server to checkout/pull our repo
+    - run: curl http://137.184.83.171:9876/123456
+
+
     
