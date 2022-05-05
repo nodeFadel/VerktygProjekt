@@ -4,7 +4,7 @@ name: Run WebDriverIO tests
 # because of a push or is about the be changed
 # by a pull request
 on:
-  push:
+  push: 
     branches: [dev, main]
   pull_request: 
     branches: [dev, main]
