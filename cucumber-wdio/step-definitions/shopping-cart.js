@@ -1,6 +1,4 @@
 const { Given, When, Then } = require('@wdio/cucumber-framework');
-const { text } = require('express');
-const { set } = require('express/lib/application');
 const pauseTime = 3000;
 
 // browser.url - navigate to a page/url
@@ -8,21 +6,51 @@ const pauseTime = 3000;
 // $ - grab an element
 // element: click, setValue
 
+
 Given('that I can see the product list', async () => {
   await browser.url('/');
   await browser.pause(pauseTime)
-}); 
+});
 
-When (/^I can write my private information in order to register new account$/, async ()=>{
-    let myAccount = await $('.register');
-    await myAccount.click();
-    await browser.pause(pauseTime);
-    let firstname = await $('.FirstName');
-    await (firstname).setValue('Anna');
-    await browser.pause(pauseTime);
+When(/^I can grab the login box$/, async () => {
+  let loginWindow = await $('.login');
+  await loginWindow.click();
+  await browser.pause(pauseTime);
+});
+
+Then(/^I can see login box$/, async () => {
+  let loginBox = await $('.loginModal');
+  await loginBox.waitForDisplayed(2000);
+  await browser.pause(pauseTime);
+})
+
+When(/^I enter email "(.*)" and password "(.*)"$/, async (email, password) => {
+  let emailField = await $('form[name="login"] input[name ="email"]');
+  let passwordField = await $('form[name="login"] input[name ="password"]');
+  await emailField.setValue(email);
+  // await emailField.waitForDisplayed(pauseTime);
+  await passwordField.setValue(password);
+  // await passwordField.waitForDisplayed(pauseTime);
+  await browser.pause(pauseTime);
+});
+
+Then(/^I can tryck the login knapp$/, async () => {
+  let loginKnapp = await $('form[name="login"] button[type="submit"]');
+  //await loginKnapp.waitForDisplay(pauseTime)
+  await loginKnapp.click();
+  await browser.pause(pauseTime);
+  await browser.url('/');
+});
+
+Then(/^I can see that I am logging in$/, async () => {
+  let logoutButton = await $('.navButtons .logout');
+  await logoutButton.waitForDisplayed(pauseTime);
+  // await browser.pause(pauseTime);
+  await browser.url('/');
 });
 
 
+/*
 Given('that I can see the product list after I loggin', async () => {
   await browser.url('/');
 });
@@ -65,11 +93,11 @@ Then(/^(\d*) item of "(.*)" should be added to the cart$/, async (quantity, prod
 
 
 
-Then (/^I click on the checkout to send the order and start from null again$/, async ()=>{
-    let checkoutButton = await $('.checkout'); 
-    await checkoutButton.click();
-    await browser.pause(pauseTime);
-})
+Then(/^I click on the checkout to send the order and start from null again$/, async () => {
+  let checkoutButton = await $('.checkout');
+  await checkoutButton.click();
+  await browser.pause(pauseTime);
+});*/
 
 
 
