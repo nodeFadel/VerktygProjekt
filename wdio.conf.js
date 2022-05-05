@@ -23,7 +23,7 @@ exports.config = {
     // will be called from there.
     //
     specs: [
-        './cucumber-wdio/features/**/*.feature'
+        './wdio-tests/features/**/*.feature'
     ],
     // Patterns to exclude.
     exclude: [
