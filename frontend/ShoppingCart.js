@@ -88,3 +88,9 @@ class ShoppingCart {
   }
 
 }
+
+// For Jest - check if we are in a Node.js environment
+// if so export the class for Jest
+if (typeof module === 'object' && module.exports) {
+  module.exports = ShoppingCart;
+};

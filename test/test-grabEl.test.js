@@ -6,9 +6,9 @@ describe('Test grabEl', () => {
 
   test('Get the content of header tag is correct', () => {
 
-    let content = grabEl('header').innerHTML.trim();
+    let content = grabEl('header h1').innerHTML.trim();
 
-    expect(content).toBe('<h1>Our grocery shop</h1>');
+    expect(content).toBe('Our grocery shop');
 
   });
 
