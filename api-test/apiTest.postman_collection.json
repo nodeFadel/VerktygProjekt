@@ -1,0 +1,675 @@
+{
+	"info": {
+		"_postman_id": "772a56dc-c9ec-4d3b-aa80-ab27c05ca557",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login as admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login as admin is my primary step\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"adam@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create 5 users",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let usersData = [{\r",
+							"    \"firstName\":\"Roy\",\r",
+							"    \"lastName\":\"Sumsson\",\r",
+							"    \"email\":\"roy.sumsson\" +Math.random() +\"@gmail.com\",\r",
+							"    \"password\":\"12345678\",\r",
+							"    \"userRole\":\"user\"\r",
+							"},\r",
+							"{\r",
+							"    \"firstName\":\"Patrik\",\r",
+							"    \"lastName\":\"Natherian\",\r",
+							"    \"email\":\"Pat.Natherian\" +Math.random() + \"@gmail.com\",\r",
+							"    \"password\":\"12345678\",\r",
+							"    \"userRole\":\"user\"\r",
+							"},\r",
+							"{\r",
+							"    \"firstName\":\"Tom\",\r",
+							"    \"lastName\":\"Thomb\",\r",
+							"    \"email\":\"tom.thomb\" +Math.random() +\"@gmail.com\",\r",
+							"    \"password\":\"12345678\",\r",
+							"    \"userRole\":\"user\"\r",
+							"},\r",
+							"{\r",
+							"    \"firstName\":\"Sami\",\r",
+							"    \"lastName\":\"stumber\",\r",
+							"    \"email\":\"sami.stumber\" +Math.random() +\"@gmail.com\",\r",
+							"    \"password\":\"12345678\",\r",
+							"    \"userRole\":\"user\"\r",
+							"},\r",
+							"{\r",
+							"    \"firstName\":\"katherin\",\r",
+							"    \"lastName\":\"rastova\",\r",
+							"    \"email\":\"katherin.rastova\" +Math.random() +\"@gmail.com\",\r",
+							"    \"password\":\"12345678\",\r",
+							"    \"userRole\":\"user\"\r",
+							"}];\r",
+							"if(!pm.environment.get(\"mockUsers\")){\r",
+							"    pm.environment.set(\"mockUsers\",JSON.stringify(usersData));\r",
+							"    pm.environment.set(\"counter\", \"0\");\r",
+							"};\r",
+							"\r",
+							"let mockUsers = JSON.parse(pm.environment.get(\"mockUsers\"));\r",
+							"let counter = +pm.environment.get(\"counter\");\r",
+							"\r",
+							"\r",
+							"let {firstName,lastName,email,password, userRole}= mockUsers[counter];\r",
+							"console.log(firstName, lastName, email, password, userRole);\r",
+							"pm.environment.set('firstName', firstName);\r",
+							"pm.environment.set('lastName', lastName);\r",
+							"pm.environment.set('email', email);\r",
+							"pm.environment.set('password', password);\r",
+							"pm.environment.set('userRole', userRole);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Unpack first\r",
+							"let mockUsers = JSON.parse(pm.environment.get(\"mockUsers\"));\r",
+							"let counter = +pm.environment.get(\"counter\");\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"// Add the id to the person in our mock data\r",
+							"mockUsers[counter].id = response.lastInsertRowid;\r",
+							"// and resave the mock data as an environment variable\r",
+							"pm.environment.set('mockUsers', JSON.stringify(mockUsers));\r",
+							"\r",
+							"pm.test(\"This is my first change\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"counter++;\r",
+							"pm.environment.set('counter', counter);\r",
+							"if(mockUsers[counter]){\r",
+							"  postman.setNextRequest(\"create 5 users\");\r",
+							"}\r",
+							"else {\r",
+							"   pm.environment.set('counter','0');\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\":\"{{firstName}}\",\r\n    \"lastName\":\"{{lastName}}\",\r\n    \"email\":\"{{email}}\",\r\n    \"password\":\"{{password}}\",\r\n    \"userRole\":\"{{userRole}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all users",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// \"Unpack\" environment variables into normal local variables\r",
+							"let mockUsers = JSON.parse(pm.environment.get(\"mockUsers\"));\r",
+							"let counter = +pm.environment.get(\"counter\");\r",
+							"\r",
+							"// Get the id of the current mock data person\r",
+							"let {id} = mockUsers[counter];\r",
+							"// Set the id as an environment variable\r",
+							"pm.environment.set('id', id);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// \"Unpack\" environment variables into normal local variables\r",
+							"let mockUsers = JSON.parse(pm.environment.get(\"mockUsers\"));\r",
+							"let counter = +pm.environment.get(\"counter\");\r",
+							"\r",
+							"// The response from the db\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"// The person data we expect in the response\r",
+							"let expectedUser = mockUsers[counter];\r",
+							"\r",
+							"pm.test(\"Check that user data was correctly saved in the db, by reading it and comparing it to the original usersData\", function(){\r",
+							"\r",
+							"    // Can not compare passwords since there are encrypted in the db\r",
+							"    // so set the expectedUsers password the the encrypted from the db\r",
+							"    expectedUser.password = response.password\r",
+							"\r",
+							"    console.log(\"expected\", expectedUser)\r",
+							"    console.log(\"response\", response)\r",
+							"\r",
+							"    pm.expect(response).to.deep.equal(expectedUser);\r",
+							"} );\r",
+							"\r",
+							"// Add one to the counter and save as environment variable\r",
+							"counter++;\r",
+							"pm.environment.set('counter', counter);\r",
+							"\r",
+							"// If there exist a peson in mockDataPersons\r",
+							"// with an index corresponding to the counter\r",
+							"// then run this request again\r",
+							"if(mockUsers[counter]){\r",
+							"  postman.setNextRequest(\"get all users\");\r",
+							"}\r",
+							"\r",
+							"else {\r",
+							"   // we are done reset the counter to 0 \r",
+							"   // the help the script in the next request\r",
+							"   pm.environment.set('counter', '0');\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/users/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login with a user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// \"Unpack\" environment variables into normal local variables\r",
+							"let mockUsers = JSON.parse(pm.environment.get(\"mockUsers\"));\r",
+							"let counter = +pm.environment.get(\"counter\");\r",
+							"\r",
+							"let {email,password} = mockUsers[counter]\r",
+							"\r",
+							"pm.environment.set('email', email);\r",
+							"pm.environment.set('password', password);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// \"Unpack\" environment variables into normal local variables\r",
+							"let mockUsers = JSON.parse(pm.environment.get(\"mockUsers\"));\r",
+							"let counter = +pm.environment.get(\"counter\");\r",
+							"\r",
+							"\r",
+							"// Write a test here that we get the user back when logged in\r",
+							"// check that response.email and response.firstName and lastname\r",
+							"// macthes teh mockUsers[counter] user\r",
+							"\r",
+							"// DO NOT INCREASE THE COUNTER!!!\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"let expectedUser = mockUsers[counter];\r",
+							"pm.test(\"login for every user succeeded\", function () {\r",
+							"\r",
+							"    expectedUser.password = response.password   \r",
+							"\r",
+							"    console.log(\"expected\", expectedUser)\r",
+							"    console.log(\"response\", response )\r",
+							"\r",
+							"    pm.expect(response.email,response.password).to.deep.equal(expectedUser.email,expectedUser.password);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"email\":\"{{email}}\",\r\n    \"password\":\"{{password}}\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout with a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// \"Unpack\" environment variables into normal local variables\r",
+							"let mockUsers = JSON.parse(pm.environment.get(\"mockUsers\"));\r",
+							"let counter = +pm.environment.get(\"counter\");\r",
+							"\r",
+							"// WHAT I A SUCCESSFUL response ON LOGOUT?\r",
+							"// The response should be {\"success\":\"logged out\"}\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"let expectedUser = mockUsers[counter];\r",
+							"pm.test(\"logout for every user\", function () {\r",
+							"\r",
+							"    console.log(\"expected\", expectedUser)\r",
+							"    console.log(\"response\", response )\r",
+							"    if(expectedUser[counter]){\r",
+							"        pm.expect.expectedUser[id].to.be('\"success\":\"logged out\"')\r",
+							"    }\r",
+							"\r",
+							"});\r",
+							"\r",
+							"// Now loop back to login for next user\r",
+							"\r",
+							"// Add one to the counter and save as environment variable\r",
+							"counter++;\r",
+							"pm.environment.set('counter', counter);\r",
+							"\r",
+							"// If there exist a peson in mockDataPersons\r",
+							"// with an index corresponding to the counter\r",
+							"// then run this request again\r",
+							"if(mockUsers[counter]){\r",
+							"  postman.setNextRequest(\"login with a user\");\r",
+							"}\r",
+							"\r",
+							"else {\r",
+							"   // we are done reset the counter to 0 \r",
+							"   // the help the script in the next request\r",
+							"   pm.environment.set('counter', '0');\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// \"Unpack\" environment variables into normal local variables\r",
+							"let mockUsers = JSON.parse(pm.environment.get(\"mockUsers\"));\r",
+							"let counter = +pm.environment.get(\"counter\");\r",
+							"\r",
+							"let {id} = mockUsers[counter]\r",
+							"\r",
+							"pm.environment.set('id', id);\r",
+							"// pm.environment.set('email', email);\r",
+							"// pm.environment.set('password', password);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"{{id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/users/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login as admin again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login as admin again\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"adam@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all users at once",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// \"Unpack\" environment variables into normal local variables\r",
+							"let mockUsers = JSON.parse(pm.environment.get(\"mockUsers\"));\r",
+							"\r",
+							"let counter = +pm.environment.get(\"counter\");\r",
+							"\r",
+							"\r",
+							"// Get the id of the current mock data person\r",
+							"let {id} = mockUsers[counter];\r",
+							"// Set the id as an environment variable\r",
+							"pm.environment.set('id', id);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// \"Unpack\" environment variables into normal local variables\r",
+							"let mockUsers = JSON.parse(pm.environment.get(\"mockUsers\"));\r",
+							"\r",
+							"// The response from the db\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"let theLatestAddedUsers = response.slice(-mockUsers.length);\r",
+							"\r",
+							"console.log(\"THE LATEST \" + mockUsers.length + \" ADD USERS IN THE DB\", theLatestAddedUsers);\r",
+							"console.log(\"ALL MOCKUSERS\", mockUsers)\r",
+							"\r",
+							"// Since the passwords are encrypted in the database we cant compare them with deep.equal - so remove them in both mockUsers and theLatestAddedUsers\r",
+							"for(let i = 0; i < mockUsers.length; i++){\r",
+							"    delete mockUsers[i].password;\r",
+							"    delete theLatestAddedUsers[i].password\r",
+							"}\r",
+							"\r",
+							"pm.test(\"The latest \" + mockUsers.length + \" users in db identical to mock users\", () => {\r",
+							"    pm.expect(theLatestAddedUsers).to.deep.equal(mockUsers);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user can log in",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User can log in\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"anna.larsson@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user cannot change products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"user cant change the products info\", function () {\r",
+							"    // SAME THING: pm.expect(response).to.deep.equal({_error: \"Not allowed\"});\r",
+							"    pm.expect(response._error).to.equal(\"Not allowed!\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"1\",\r\n    \"name\":\"popcorn\",\r\n    \"description\":\"tasty\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/products/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user cannot update other user info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"user cannot update any other user\", function () {\r",
+							"    // SAME THING: pm.expect(response).to.deep.equal({_error: \"Not allowed\"});\r",
+							"    pm.expect(response._error).to.equal(\"Not allowed!\");\r",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"changedEmail@gmail.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/users/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
