@@ -34,7 +34,7 @@ jobs:
     - run: npm run build --if-present
       # install pm2
     - run: npm install -g pm2
-    - run: cp database/products_template.db database/products.db
+    - run: cp database/products-template.db database/products.db
       # run our Node.js based server/backend/REST-api using pm2
     - run: pm2 start backend/index.js
       # Install Chrome
@@ -60,7 +60,7 @@ jobs:
         cache: 'npm'
       # install npm modules (using ci, instead of i)
     - run: npm ci
-    - run: cp database/products_template.db database/products.db
+    - run: cp database/products-template.db database/products.db
     - run: npm test
 
   api-test: 
@@ -83,7 +83,7 @@ jobs:
     - run: npm install -g pm2
     - run: npm install -g newman
       # run our Node.js based server/backend/REST-api using pm2
-    - run: cp database/products_template.db database/products.db
+    - run: cp database/products-template.db database/products.db
     - run: pm2 start backend/index.js
     - run: newman run api-test/apiTest.postman_collection.json
 
