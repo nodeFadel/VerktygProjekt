@@ -6,7 +6,8 @@
     "scripts": {
         "start": "node backend/index",
         "test": "jest",
-        "wdio": "wdio run wdio.conf.js"
+        "wdio": "wdio run wdio.conf.js",
+        "api-tests": "newman run api-test/apiTest.postman_collection.json"
     },
     "keywords": [],
     "author": "",
