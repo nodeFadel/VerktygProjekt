@@ -16,7 +16,7 @@ const path = require('path');
 // }
 
 // Path to db-template
-const dbTemplatePath = path.join(__dirname,'./database', 'products-template.db');
+const dbTemplatePath = path.join(__dirname, './database', 'products-template.db');
 const dbPath = path.join(__dirname, './database', 'products.db');
 
 // A function that does all necessary git checkout, clean up etc
@@ -40,4 +40,4 @@ const server = http.createServer(function (req, res) {
 });
 
 // Start up the server
-server.listen(9876, () => console.log('Listening on http://localhost:9876'));
+server.listen(process.env.PORT || 9876, () => console.log('Listening on http://localhost:9876'));
