@@ -1,3 +1,8 @@
+# Instruktioner till en ny team medlem
+ Om du vill skapa en ny feature, skapa en ny feature branch och arbeta i. När allt är fungerande kan man skicka pull request för att merga in det i dev branchen. Admin är den ende som kan acceptera pull requesten. 
+ Vid problem i produktionskoden ska du antingen lösa det i branchen du befinner dig i eller i hot-fix branchen.
+
+
 # Feature-scenarioTest branch
  Där har vi skrivit vår feature och våra scenarion som beskriver att som användare ska man kunna lägga till varor i varukorgen, kunna ändra på antalet av varje vara i varukorgen samt kunna radera varor från varukorgen. 
 # Hot-fix branchen 
