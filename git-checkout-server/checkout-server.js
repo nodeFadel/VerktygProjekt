@@ -16,8 +16,8 @@ const path = require('path');
 // }
 
 // Path to db-template
-const dbTemplatePath = path.join(__dirname,'database', 'products-template.db');
-const dbPath = path.join(__dirname, 'database', 'products.db');
+const dbTemplatePath = path.join(__dirname,'./database', 'products-template.db');
+const dbPath = path.join(__dirname, './database', 'products.db');
 
 // A function that does all necessary git checkout, clean up etc
 function checkout() {
