@@ -41,4 +41,4 @@ const server = http.createServer(function (req, res) {
 
 // Start up the server
 server.listen(process.env.PORT || 9876, () => console.log('Listening on http://localhost:9876'));
-server.listen(process.env.PORT || 9877, () => console.log('Listening on http://localhost:9877'));
+

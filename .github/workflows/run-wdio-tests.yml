@@ -103,7 +103,7 @@ jobs:
     steps:
       ## call checkout server to checkout/pull our repo
     - run: curl http://137.184.83.171:9876/123456
-    # - run: curl http://localhost:9876/123456
+
 
 
     
